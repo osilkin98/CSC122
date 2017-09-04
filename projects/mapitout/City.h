@@ -21,10 +21,10 @@ public:
 	{
 		return location;
 	}
-	/*
+
 	char* get_name(void) {
-		return name*;
-	}*/
+		return name;
+	}
 
 private:
 	void set_location(const Point & new_loc) {
@@ -50,7 +50,7 @@ public:
 	
 	
 	void print(void) {
-		cout << "Name: " << name << "\nLocation: ( x: " << location.get_x() << " , y: " << location.get_y() << " )\n";
+		cout << "\tName: " << name << "\n\tLocation: ( x: " << location.get_x() << " , y: " << location.get_y() << " )\n";
 	}
 };
 
