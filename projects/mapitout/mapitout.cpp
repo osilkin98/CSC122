@@ -4,7 +4,7 @@
 #include <cstring>
 #include <cctype>
 
-#define CITY_LIMIT 3
+#define CITY_LIMIT 512
 
 using namespace std;
 
@@ -22,9 +22,10 @@ void print_cities(vector<City*> *v, bool const cust) {
 }
 
 
-double measure_distance(vector<City*> *v) {
+bool measure_distance(vector<City*> *v) {
 	if(v -> size() < 2) {
-		return -1;
+		cout << "\n\t\nError: Must have at least 2 entries in order to make distance measurements\n\n";
+		return false;
 	} else {
 		int a, b;
 		if(v -> size() == 2) {
@@ -39,7 +40,10 @@ double measure_distance(vector<City*> *v) {
 			cout << "\nEnter the second city's number: ";
 			cin >> b;
 		}
-		return (*v)[a - 1] -> distance( (*v)[b - 1] );
+		 cout << "\nDistance between " << v[0][a - 1] -> get_name() << " and " << v[0][b - 1] -> get_name() << " is: " 
+			  << (v[0][a - 1] -> get_location()).distance((v[0][b - 1] -> get_location())) << endl;
+		 
+		 return true;
 	}
 }
 
@@ -59,17 +63,20 @@ void enter_cities(vector<City*> *v) {
 			
 			cout << "Continue? (y/n): ";
 			cin >> t;
-			cout << "\n\n";
+			cout << "\n";
 			while(tolower(t) != 'y' && tolower(t) != 'n') {
 				cout << "Error: invalid option!\n\nContinue? (y/n): ";
 				cin >> t;
 			}
 			
 		}
-		if(mem_full)
-			cout << "\n\nError: Exiting: Memory Full! Delete entries before making new ones!\n\n";
+		if(mem_full) {
+			cout << "\n\t\nError: Exiting: Memory Full! Delete entries before making new ones!\n\n";
+			system("pause");
+		}
 	} else {
 		cout << "\n\nError: Memory Full; Delete entries before making new ones\n\n";
+		system("pause");
 	}
 }
 
@@ -82,26 +89,21 @@ int main() {
 	
 	// main loop
 	while(in != '4' && 'q' != tolower(in)) {
-		cout << "\n\nEnter the number or first letter of your choice\n\n" 
-			<< "1) enter city information\n" 
-			<< "2) calculate distance between two cities\n"
-			<< "3) print all cities\n"
-			<< "4) quit\n\nMenu: "; 
+		cout << "\n\nEnter the number or first letter of your choice:\n\n" 
+			<< "\t1) Enter city information" 
+			<< "\n\t2) Calculate distance between two cities"
+			<< "\n\t3) Print all cities"
+			<< "\n\t4) Quit\n\t\nMenu: "; 
 		
 		cin >> in;
-		cout << "\n\n";
+		cout << "\n";
 		// create & append new cities to the vector
 		if( in == '1' || tolower(in) == 'e') {
 			enter_cities(&cities);
 		} else if ( in == '2' || tolower(in) == 'c') { // calculate distance between two cities in the grid
 			
-			double dist = measure_distance(&cities);
-			
-			if(dist < 0) {
-				cout << "\n\nError: Must have at least 2 entries in order to make distance measurements\n\n";
-			} else { 
-				cout << "Distance: " << dist << "\n";
-			}
+			measure_distance(&cities);
+			system("pause");
 		} else if(in == '3' || tolower(in) == 'p') { // print a list of cities in the grid alongside their information
 			print_cities(&cities, false);
 		}
