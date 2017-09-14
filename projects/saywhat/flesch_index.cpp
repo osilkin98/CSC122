@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <cctype>
@@ -131,13 +133,44 @@ double flesch_index(const string & str) {
 	  round(206.385 - 84.6 * ((double)syl/(double)words) - 1.015);	
 }
 
+string file_input(const string & filename) {
+	string s, f;
+	ifstream file(filename);
+	if( file.is_open() ) {
+		while( getline(file, s) ) {
+			f.append(s);
+		}
+	}
+	//delete &s;
+	return f;
+}
 
-int main() {
-	
-	string str;
-	cout << "Enter a sentence: ";
-	getline(cin, str);
-       	cout << "This writing  has an index of: " << flesch_index(str) <<  "\n";
+int main(int argc, char* argv[]) {
+	if(argc > 0) {
+		int x;
+		string arg;
+		for(int i = 1; i < argc; ++i) {
+			arg = string(argv[i]);
+			// if argument is to input from files
+			if(arg.length() == 2 && arg[0] == '-' && tolower(arg[1]) == 'f') {
+				for(int j = 1; j <  argc; ++j) {
+					if(j != i) {
+						cout << "Flesch index of " << argv[j] << ": " << flesch_index(file_input(string(argv[j]))) << endl;
+					}
+				}
+				break;
+
+			} else if(arg[0] == '-') {
+				cout << "\nError: Unknown command,\n" <<
+					"\n\tCommands list:" <<
+					"\n\n\tread from file(s), usage: -f [file_1], [file_2], ..., [file_n]\n"
+					<< endl;
+				break;
+			}
+		}
+       	}
+	//system("pause");
 	return 0;
 }
+
 
