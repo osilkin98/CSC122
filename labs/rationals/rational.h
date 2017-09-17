@@ -7,18 +7,19 @@
 class rational {
 	private:
 		int num, dem;
-		double ratio;
+		//double ratio;
 		
 		/****** CRITICAL MUTATORS *****/
 		bool set_dem(const int d);
 		bool set_num(const int n);
-		
+		void reduce(int &a, int &b);
 	public:
 		/****** ACCESSORS *********/
 		int get_num(void) { return num; }
 		int get_dem(void) { return dem; }
+		double get_ratio(void) { return ((double)num / (double)dem); }
 		
-		
+		int gcd(int x, int y);
 		
 		/******* CONSTRUCTORS ********/
 		
@@ -34,8 +35,8 @@ class rational {
 		
 		
 		// print function 
-		char const* print(void) { return  num + "/" + dem; }
-		
+		char const* get_text(void) { return  num + "/" + dem; }
+		void print(void) { std::cout << num <<  "/" << dem << std::endl; }
 		//additive inverse will be added whence I am to receive more clarification from the instructor
 		
 		
