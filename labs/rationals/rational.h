@@ -33,7 +33,7 @@ class rational {
 		bool change_dem(const int d); // must be implemented 
 		bool change_num(const int n);
 		
-		
+		 
 		// print function 
 		char const* get_text(void) { return  num + "/" + dem; }
 		void print(void) { std::cout << num <<  "/" << dem << std::endl; }
