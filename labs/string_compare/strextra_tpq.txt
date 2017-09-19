@@ -1,0 +1,47 @@
+Oleg Silkin
+"hi" == "Hi"?
+Though Proviking Questions
+
+	1. We can just simply use either the toupper() or tolower() functions
+	provided in the <cctype> header, we can pass the characters in as
+	copies, allowing us to compare two given characters without actually
+	damaging their original value. To do this without the help of this
+	great header, we could always get the character's asskey values and if
+	they're in the [65-90] range, we can add 32 to their value, bumping
+	them up to appear as lowercase characters, and then comparing the two. 
+	Similarly, we can just subtract 32 if they're in the [97-122] range to
+	convert them to uppercase.
+
+	2. Whether we use c-strings or the vectorized strings, the idea is the same, though more tedious for the latter. 
+	We can simply pass the strings into a comparisson function as 
+	reference, and then iterate through the strings,
+	each time passing a copy of the character values into a function
+	defined in the header <cctype> which returns the lower case version of
+	the given character. This way, we are not damaging the integrity of
+	our original string.
+
+	3. My string comparisson function should take a reference to the
+	original string [constant], and their respective lengths [constant],
+	add a 1 if we're working with c-strings because of the null terminator and whatnot.
+	We can additionally add in [constant] boolean flags to notify the
+	function that we are indeed ignoring either punctuation, whitespace
+	or both.
+
+	4. My function design was inspired by the lexographic string
+	comparisson function designed by Oracle for Java. It returns
+	the lexographic distance between the first ocurrance of non-matching
+	characters between the first string and the second. 
+	So say we were comparing 'a' with 'c', the function would
+	return a +2, because 'a' in the first string comes before 'c' in the
+	second string. But if the order of the strings was reversed, then the
+	function would return a -2, because 'a' preceeds 'c', however, the
+	first string passed was "c" and not "a", the order would be negated,
+	and the second string should actually come first, had this function
+	be implemented in a sorting algorithm.
+
+	5. To verify that there are no bugs in the function, we'd have to run
+	it through countless testing, as you would with anything else, simply
+	due to the nature of cases that we as humans don't initially take into account.
+	But for the barebones of the assignment, we'd only have to run it
+	through around 6 times, 10 for the extra ignore punctuation/whitespace 
+	functionality that I implemented.
