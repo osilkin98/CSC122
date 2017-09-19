@@ -1,41 +1,36 @@
 #include "rational.h"
 #include <cmath>
 #include <iostream>
-
+#include <climits>
 using namespace std;
 
 /*** critical mutators***/
-bool rational::set_dem(const int d) {
-	switch(d) { // can't set 0 as a denominator
-		case 0:
-			return false;
-		default:
-			dem = d;
-			return true;
-	}
+inline bool rational::set_dem(const long int d) {
+	dem = d; // sets denominator
+	return true;
 }
 
 // set the numerator 
-bool rational::set_num(const int n) { 
+inline bool rational::set_num(const long int n) { 
 	num = n; 
 	return true;
 }
 
 
 // set fractions
-bool rational::set_frac(int n, int d) {
+bool rational::set_frac(long int n, long int d) {
 	switch(d) {
-		case 0:
+		case 0: // in the case that 'd' is 0, we do NOT set the fraction with the given values.
 			return false;
 		default:
 			reduce(n, d);
 			if(d < 0 && n < 0) { // if both n & d are negative then factor out the -1
 				set_dem((-1)*d);
 				set_num((-1)*n);
-			} else if( d < 0 && n >= 0) { // else if d is negative and n >= 0 then flip that
+			} else if( d < 0 && n >= 0) { // else if d is negative and n >= 0 then flip the negatives
 				set_dem((-1)*d);
 				set_num((-1)*n);
-			} else {
+			} else {	// otherwise just set the values for the fraction
 				set_dem(d);
 				set_num(n);
 			}
@@ -46,9 +41,9 @@ bool rational::set_frac(int n, int d) {
 
 
 // computes the greatest common denominator between two integers using euclid's GCD algorithm 
-int rational::gcd(int top, int bot) {
-	int x = abs(top), y = abs(bot); // assign two integers x & y the numerator & denominator values
-	int r = 1, q = 0; // create variables r and q for the remainder and quotient, respectively
+long int rational::gcd(long int top,long int bot) {
+	long int x = abs(top), y = abs(bot); // assign two integers x & y the numerator & denominator values
+	long int r = 1, q = 0; // create variables r and q for the remainder and quotient, respectively
 	while( r != 0 ) { // while r is not equal to zero
 		q = 0; // reset the quotient 
 		r = x; // set x as the vaue for the remainder
@@ -66,46 +61,61 @@ int rational::gcd(int top, int bot) {
 	// we have found the GCD!
 	return y;
 }
-
-void rational::reduce(int &a, int&b) {
-	int d = gcd(a, b);
-	a = a / d;
+// private function
+void rational::reduce(long int &a,long int&b) {
+	long int d = gcd(a, b); // get the greatest common divisor
+	a = a / d; // reduce the given variables
 	b = b /d;
 }
+// implement the input function
+bool rational::Input(void) {
+	long int a, b; // create two temporary variables 
+	char c; // temporary character to get the '/' in between 
+	cin >> a >> c >> b;
+	cin.clear(); // clear the cin buffer so that nothing is in limbo
+	cin.ignore(INT_MAX,'\n');
+	return set_frac(a,b);
+
+}
+
 
 
 
 /**** CONSTRUCTORS ****/
-rational::rational(void) { set_frac(1, 1); }
+rational::rational(void) {
+	set_frac(1, 1); // just set the fraction to be 1/1
+}
 
-rational::rational(const int n, const int d) {
+rational::rational(const long int n, const long int d) {
 	if(!set_frac(n, d)) {
-		set_frac(1, 1);
+		set_frac(1, 1);  // if the values given aren't valid then set them to 1/1 as default
 	}
 }
 
-bool rational::reciprocal(void) {
-	return set_frac(dem, num);
+inline rational const rational::reciprocal(void) {
+	return rational(dem, num); // just return a new rational object which is a reciprocal of the original fraction
 }
-// sum
-bool rational::sum(rational & other) {
-	return set_frac(num * other.get_dem() + dem * other.get_num(), other.get_dem() * dem);
+// sum a new rational that is the sum of the two
+inline rational const rational::sum(rational & other) {
+	return rational(num * other.get_dem() + dem * other.get_num(), other.get_dem() * dem);
 }
-
-bool rational::diff(rational & other) { 
-	return set_frac(num * other.get_dem() - dem * other.get_num(), dem * other.get_dem());
+// return a new rational which is the difference between the two rationals
+inline rational const rational::diff(rational & other) { 
+	return rational(num * other.get_dem() - dem * other.get_num(), dem * other.get_dem());
 }
-
-bool rational::product(rational & other) {
-	return set_frac(num * other.get_num(), dem * other.get_dem());
+// returns the product of the two rationals
+inline rational const rational::product(rational & other) {
+	return rational(num * other.get_num(), dem * other.get_dem());
 }
-
-bool rational::quotient(rational & other) { 
-	return set_frac( num * other.get_dem(), dem * other.get_num());
+// returns the quotient of the first rational over the given rational 
+inline rational const rational::quotient(rational & other) { 
+	return rational( num * other.get_dem(), dem * other.get_num());
 }
 
 int main() {
-	rational rat(10, -5);
-	rat.print();
+	rational rat;
+	rat.Input();
+	rat.Output();
+	cout << endl;
 	return 0;
 }
