@@ -8,30 +8,35 @@
 
 using namespace std;
 
-// works 
-void print_cities(vector<City*> *v, bool const cust) {
+// method to print all the cities we have,
+// if we have 
+void print_cities(vector<City*> *v, bool const custom = false) {
+	// prints the individual cities within the vector
 	for(int i = 0; i < v -> size(); i++) {
 		cout << i + 1 << ") ";
 		(*v)[i] -> print();
 		cout << "\n";
-	}
-	if(!cust) {
+	} // unless we have a custom menu using the print cities function,
+	 // we pause the program and wait for the user to hit enter
+	if(!custom) {
 		system("pause");
 	}
 	
 }
 
-
+// basically measures the distance between two user-specified cities
 bool measure_distance(vector<City*> *v) {
-	if(v -> size() < 2) {
+	if(v -> size() < 2) { // if we have < 2 cities, we can't do anything
 		cout << "\n\t\nError: Must have at least 2 entries in order to make distance measurements\n\n";
 		return false;
-	} else {
+	} else { // otherwise
 		int a, b;
+		// if the size is EXACTLY 2, then we can measure the distance
+		// between the two cities that we have
 		if(v -> size() == 2) {
 			a = 1;
 			b = 2;
-		} else {
+		} else { // otherwise, print the cities for the user to choose from
 			print_cities(v, true); 
 			
 			// to be added: verification that both a & b are within the correct indices of v.size()		
@@ -39,7 +44,10 @@ bool measure_distance(vector<City*> *v) {
 			cin >> a;
 			cout << "\nEnter the second city's number: ";
 			cin >> b;
+			cin.clear();
+			cin.ignore(256, '\n');
 		}
+		// calculate the distance between two user specified cities and print it out
 		 cout << "\nDistance between " << v[0][a - 1] -> get_name() << " and " << v[0][b - 1] -> get_name() << " is: " 
 			  << (v[0][a - 1] -> get_location()).distance((v[0][b - 1] -> get_location())) << endl;
 		 
@@ -47,10 +55,14 @@ bool measure_distance(vector<City*> *v) {
 	}
 }
 
+// function which allows the user to enter cities
 void enter_cities(vector<City*> *v) {
+	// i don't know why there's a limit on cities seeing as we're using a vector but I'm fine with it
+	// if the current size is less than the maximum size, then we can add more cities
 	if(v -> size() < CITY_LIMIT) {
-		char t = 'y';
+		char t = 'y'; 
 		bool mem_full = false;
+		// while the memory isn't full and the user still wants to enter new cities
 		while(tolower(t) != 'n' && !mem_full) {
 			//cout << v -> size();
 			City *cit = new City();	
@@ -64,22 +76,25 @@ void enter_cities(vector<City*> *v) {
 			cout << "Continue? (y/n): ";
 			cin >> t;
 			cout << "\n";
+			// if the user gives us something other than y/n,
 			while(tolower(t) != 'y' && tolower(t) != 'n') {
 				cout << "Error: invalid option!\n\nContinue? (y/n): ";
 				cin >> t;
 			}
 			
-		}
+		} // if the memory is full, then we must notify the user at once!
 		if(mem_full) {
 			cout << "\n\t\nError: Exiting: Memory Full! Delete entries before making new ones!\n\n";
 			system("pause");
 		}
+		// otherwise if the current size is at the limit, notify the user at once!
 	} else {
 		cout << "\n\nError: Memory Full; Delete entries before making new ones\n\n";
 		system("pause");
 	}
 }
 
+// main function basically
 int main() {
 	
 	//initialization
@@ -110,6 +125,6 @@ int main() {
 	}
 	
 	// exit here 
-	delete & cities;
+	delete & cities; // flush the memory
 	return 0;
 }
