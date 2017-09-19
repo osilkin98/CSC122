@@ -10,7 +10,7 @@ using namespace std;
 
 // method to print all the cities we have,
 // if we have 
-void print_cities(vector<City*> *v, bool const custom = false) {
+void print_cities(vector<City*> *v) {
 	// prints the individual cities within the vector
 	for(int i = 0; i < v -> size(); i++) {
 		cout << i + 1 << ") ";
@@ -18,9 +18,6 @@ void print_cities(vector<City*> *v, bool const custom = false) {
 		cout << "\n";
 	} // unless we have a custom menu using the print cities function,
 	 // we pause the program and wait for the user to hit enter
-	if(!custom) {
-		system("pause");
-	}
 	
 }
 
@@ -37,7 +34,7 @@ bool measure_distance(vector<City*> *v) {
 			a = 1;
 			b = 2;
 		} else { // otherwise, print the cities for the user to choose from
-			print_cities(v, true); 
+			print_cities(v); 
 			
 			// to be added: verification that both a & b are within the correct indices of v.size()		
 			cout << "\nEnter the first city's number: ";
@@ -85,12 +82,10 @@ void enter_cities(vector<City*> *v) {
 		} // if the memory is full, then we must notify the user at once!
 		if(mem_full) {
 			cout << "\n\t\nError: Exiting: Memory Full! Delete entries before making new ones!\n\n";
-			system("pause");
 		}
 		// otherwise if the current size is at the limit, notify the user at once!
 	} else {
 		cout << "\n\nError: Memory Full; Delete entries before making new ones\n\n";
-		system("pause");
 	}
 }
 
@@ -118,13 +113,11 @@ int main() {
 		} else if ( in == '2' || tolower(in) == 'c') { // calculate distance between two cities in the grid
 			
 			measure_distance(&cities);
-			system("pause");
 		} else if(in == '3' || tolower(in) == 'p') { // print a list of cities in the grid alongside their information
-			print_cities(&cities, false);
+			print_cities(&cities);
 		}
 	}
 	
 	// exit here 
-	delete & cities; // flush the memory
 	return 0;
 }
