@@ -32,10 +32,13 @@ class rational {
 		bool set_frac(const long int n, const long int d);
 		
 		 
-		// returns the rational as text 
-		inline char const* get_text(void) { return  num + "/" + dem; }
 		// simply outputs the rational with no endline
-		inline void Output(void) { std::cout << num <<  "/" << dem; }
+		inline void Output(void) { if(num == 0) { std::cout << "0"; 
+					} else if(dem == 1) { std::cout << num;
+					} else { std::cout << num << "/" << dem; } }
+		inline void printline(void) { if(num == 0) { std::cout << "0" << std::endl; 
+					} else if(dem == 1) { std::cout << num << std::endl;
+					} else { std::cout << num << "/" << dem << std::endl; } }
 		// takes in the user's input without prompting them to enter anything, which is something they should do on their own
 		bool Input(void);
 		
@@ -72,3 +75,4 @@ class rational {
 };
 
 #endif
+
