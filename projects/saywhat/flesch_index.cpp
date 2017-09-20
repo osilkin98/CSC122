@@ -163,29 +163,47 @@ string file_input(const string & filename) {
 }
 
 int main(int argc, char* argv[]) {
-	if(argc > 0) {
+	// if we have more arguments than just the initial argument
+	if(argc > 1) {
 		int x;
 		string arg;
 		for(int i = 1; i < argc; ++i) {
 			arg = string(argv[i]);
 			// if argument is to input from files
 			if(arg.length() == 2 && arg[0] == '-' && tolower(arg[1]) == 'f') {
+				if(argc == 2) { // if we only have two arguments in total
+					// IE: "./flesch_index -f"
+					cout << "Error: File not specified." << endl;
+				}// goes through each file and calculates its flesch index
 				for(int j = 1; j <  argc; ++j) {
 					if(j != i) {
-						cout << "Flesch index of " << argv[j] << ": " << flesch_index(file_input(string(argv[j]))) << endl;
+						cout << "Flesch index of "
+						<< argv[j] << ": " << 
+						flesch_index(file_input(string(argv[j]))) 
+						<< endl;
 					}
 				}
+				// since we found our *one* argument, we no longer need
+				// search for more arguments
 				break;
-
+			// if we've gone through all possible arguments and haven't matched yet
+			// then whatever this current argument is; it's garbage.
 			} else if(arg[0] == '-') {
 				cout << "\nError: Unknown command,\n" <<
 					"\n\tCommands list:" <<
-					"\n\n\tread from file(s), usage: -f [file_1], [file_2], ..., [file_n]\n"
+					"\n\n\tread from file(s), usage: -{f|F} [file_1], [file_2], ..., [file_n]\n"
 					<< endl;
 				break;
 			}
 		}
-       	}
-	//system("pause");
+       	} else { // otherwise if we don't have any arguments, we can just run it like this.
+		// this block just gets the user input and outputs the flesch index.
+		string str;
+		cout << "This program calculates the flesch index of a piece of text,\n"
+			<< "Enter a piece of text to get started:\n" << endl;
+		getline(cin, str);
+		cout << "\nThe flesch index of this text is: " << flesch_index(str) << "." << endl;
+	}
 	return 0;
 }
+
