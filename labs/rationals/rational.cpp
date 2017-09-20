@@ -113,9 +113,111 @@ inline rational const rational::quotient(rational & other) {
 }
 
 int main() {
-	rational rat;
-	rat.Input();
-	rat.Output();
+	rational rat1, rat2, rat3;
+	int test_cases = 11, i = 1;
+	cout << "Enter the first rational number: ";
+	rat1.Input();
+	cout << "Enter the second rational number: ";
+	rat2.Input();
 	cout << endl;
+	while(i <= test_cases) {
+		switch(i) {
+			case 1:
+				cout << "Reciprocal of ";
+				rat1.Output();
+				cout << " = ";
+				rat3 = rat1.reciprocal();
+				rat3.printline();
+				break;
+			case 2:
+				cout << "Sum of ";
+				rat1.Output();
+				cout << " and ";
+				rat2.Output();
+				cout << " is ";
+				rat3 = rat1.sum(rat2);
+				rat3.printline();
+				break;
+			case 3:
+				cout << "Difference of ";
+				rat1.Output();
+				cout << " and ";
+				rat2.Output();
+				cout << " is ";
+				rat3 = rat1.diff(rat2);
+				rat3.printline();
+
+				break;
+			case 4:
+				cout << "Product of ";
+				rat1.Output();
+				cout << " and ";
+				rat2.Output();
+				cout << " is ";
+				rat3 = rat1.product(rat2);
+				rat3.printline();
+
+				break;
+			case 5:
+				cout << "Quotient of ";
+				rat1.Output();
+				cout << " and ";
+				rat2.Output();
+				cout << " is ";
+				rat3 = rat1.quotient(rat2);
+				rat3.printline();
+
+				break;
+			
+			case 6:
+				rat1.Output();
+				cout << " < ";
+				rat2.Output();
+				cout << " = " << rat1.less_than(rat2) << endl;
+				break;
+			case 7:
+				rat1.Output();
+				cout << " <= ";
+				rat2.Output();
+				cout << " = " << rat1.less_than_equal_to(rat2) << endl;
+				break;
+
+			case 8:
+				rat1.Output();
+				cout << " > ";
+				rat2.Output();
+				cout << " = " << rat1.greater_than(rat2) << endl;
+				break;
+
+			case 9:
+				rat1.Output();
+				cout << " >= ";
+				rat2.Output();
+				cout << " = " << rat1.greater_than_equal_to(rat2) << endl;
+				break;
+
+			case 10:
+				rat1.Output();
+				cout << " = ";
+				rat2.Output();
+				cout << " = " << rat1.equal_to(rat2) << endl;
+				break;
+
+			case 11:
+				rat1.Output();
+				cout << " =/= ";
+				rat2.Output();
+				cout << " = " << rat1.not_equal_to(rat2) << endl;
+				break;
+
+
+
+			default:
+				cout << i << endl;
+				break;
+		}
+		i++;
+		cout << endl;
+	}
 	return 0;
 }
