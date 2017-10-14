@@ -34,26 +34,27 @@ void construct_table(int table_size, char op) {
   int prec = op == '/' ? 2 : 0;
   int width = op == '/' ? prec+3: 4;
   int mult = (table_size + 2) * width;
-  oss << setw(width) << left << op << setw(width) << "|";
+  oss << setw(width) << right << op << setw(width) << "|";
   for(int i = 1; i <= table_size; ++i) {
     oss << setw(width) << i;
   }
   oss << "\n";
   for(int i = 1; i <= mult; ++i) {
-    if(i == width+1) {
+    if(i == width*2) {
       oss << "+";
       continue;
     }
     oss << "-";
   }
   oss << "\n";
-  for(int k = 1; k <= table_size; ++k) {
-    oss << setw(width) << k << setw(width) << "|";
-    for(int i = 1; i <= table_size; ++i) {
-      oss << setw(width) << fixed << setprecision(prec)  << table_operation(i, k, op);
+  for(int row = 1; row <= table_size; ++row) {
+    oss << setw(width) << row << setw(width) << "|";
+    for(int col = 1; col <= table_size; ++col) {
+      oss << setw(width) << fixed << setprecision(prec)  << table_operation(row, col, op);
     }
     oss << "\n";
   }
+  cout << "Width: " << width << endl;
   cout << oss.str() << endl;
 }
 
